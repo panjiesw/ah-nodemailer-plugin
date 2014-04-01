@@ -5,7 +5,8 @@
   "description": "nodemailer email plugin for actionhero API Server",
   "homepage": "https://github.com/panjiesw/ah-nodemailer-plugin",
   "scripts": {
-    "test": "NODE_ENV=test fakeredis=true node ./node_modules/.bin/mocha test"
+    "postinstall": "scripts/postinstall.js",
+    "prepublish": "grunt dev"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "grunt": "~0.4.4",
     "grunt-contrib-coffee": "~0.10.1",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-newer": "~0.7.0"
+    "grunt-newer": "~0.7.0",
+    "grunt-contrib-clean": "~0.5.0"
   }
 }

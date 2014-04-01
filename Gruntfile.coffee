@@ -62,10 +62,13 @@ module.exports = (grunt) ->
       ]
       tasks: "newer:coffee:dev"
 
+  tasks.clean = ["#{ACTION}", "#{CONFIG}", "#{INITIALIZER}", "#{TASK}"]
+
   grunt.initConfig tasks
 
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-newer'
 
   grunt.registerTask "dev", [
