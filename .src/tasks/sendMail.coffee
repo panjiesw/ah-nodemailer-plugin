@@ -23,8 +23,8 @@ exports.sendMail =
     api.Mailer.send(params)
     .then (response) ->
       api.log "Mail sent to #{params.mail.to}"
+      next null, response
     .catch (err) ->
       api.log "Error sending mail", 'crit', err.message
       api.log err.stack, 'error'
-    .finally ->
-      next()
+      next err, null

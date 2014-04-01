@@ -31,9 +31,6 @@
     "grunt": "~0.4.4",
     "grunt-contrib-coffee": "~0.10.1",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-newer": "~0.7.0",
-    "chai": "~1.9.1",
-    "chai-as-promised": "~4.1.1",
-    "mocha": "~1.18.2"
+    "grunt-newer": "~0.7.0"
   }
 }

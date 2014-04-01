@@ -43,7 +43,7 @@ Mailer = (api, next) ->
       if config.transport is 'stdout'
         api.log "Creating stdout mail transport"
         api.Mailer.transport = nodemailer.createTransport(
-          ConsoleTransport, name: 'blangszutan.local')
+          ConsoleTransport, name: 'console.local')
       else
         api.log "Creating #{config.transport} mail transport"
         api.Mailer.transport = nodemailer.createTransport(
@@ -55,7 +55,7 @@ Mailer = (api, next) ->
     Sends email with defined Mailer transport.
     ###
     send: (options, callback) ->
-      api.config.mail
+      config = api.config.mailer
 
       unless options.mail and options.template and options.locals
         error = new Error(
@@ -72,7 +72,7 @@ Mailer = (api, next) ->
       .then (resolved) ->
         options.mail.html = resolved[0]
         options.mail.text = resolved[1]
-        Q.ninvoke api.Mailer.transport.sendMail, options.mail
+        Q.nfcall api.Mailer.transport.sendMail, options.mail
       .nodeify callback
 
   next()
