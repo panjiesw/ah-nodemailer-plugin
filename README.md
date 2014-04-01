@@ -1,42 +1,47 @@
 actionhero-nodemailer-plugin
 ============================
 
-**\*WORK IN PROGRESS\***
+Index
+-----
 
  - [What][1]
      - [Feature List][2]
- - How
-     - [Installing][3]
-     - [Configuration][4]
-     - [Usage][5]
-     - [TODO][6]
+ - [How][3]
+     - [Installing][4]
+     - [Configuration][5]
+     - [Mail Templates][6]
+     - [Usage][7]
+ - [API Methods][8]
+ - [TODO][9]
 
 <a name="what"></a>
 What
 ----
-Mail sending plugin for [actionhero][7] API Server using [nodemailer][8]. Provides ***api methods*** and ***task runner*** to configure and send Mail from within an actionhero API Server. It's also integrated with mail template capability from [email-templates][9] package.
+Mail sending plugin for [actionhero][10] API Server using [nodemailer][11]. Provides ***api methods*** and ***task runner*** to configure and send Mail from within an actionhero API Server. It's also integrated with mail template capability from [email-templates][12] package.
 
 <a name="features"></a>
 ### Feature List
 
- - Various supported mail transport by [nodemailer][10].
- - Mail template capability from email-templates package, using [ejs][11] / [jade][12] / [swig][13] / [handlebars][14].
+ - Various supported mail transport by [nodemailer][13].
+ - Mail template capability from email-templates package, using [ejs][14] / [jade][15] / [swig][16] / [handlebars][17].
  - Built in task for sending mail.
  - Easy configuration.
- - Supports [Promises/A+][15] and classic callback style
+ - Supports [Promises/A+][18] and classic callback style
 
 <a name="how"></a>
 How
 ---
 <a name="installing"></a>
 ### Installing
-In your actionhero project, install the plugin from NPM. ***NOT YET PUBLISHED***
+**\*NOTE!** First, make sure you have a ``plugins`` directory inside your actionhero's ``config`` directory. It's considered a good practice to group configuration files from ah-plugin package and i will do so for any plugin i release. The postinstall script will copy the config file to the directory and will throw error if there is no ``plugins`` directory. I will fix this in the future.
+
+After that, in your actionhero project, install the plugin from NPM.
 
     npm install ah-nodemailer-plugin --save
 
 <a name="configuration"></a>
 ### Configuration
-After installation is finished, there will be a configuration file copied to your ``/config`` folder named ``mailer.js``. Below is the default configuration file content, modify it to meet your needs.
+After installation is finished, there will be a configuration file copied to your ``/config/plugins`` folder named ``mailer.js``. Below is the default configuration file content, modify it to meet your needs.
 
 ```javascript
 exports["default"] = {
@@ -85,13 +90,37 @@ exports["default"] = {
       Email templates directory.
       Defaults to root `templates` directory.
        */
-      templates: "" + __dirname + "/../templates"
+      templates: "" + __dirname + "/../../templates"
     };
   }
 };
 ```
 
-You can see a list of supported transports in [nodemailer site][16]
+You can see a list of supported transports in [nodemailer site][19]
+
+<a name="templates"></a>
+### Mail Templates
+This plugin supports, or rather **required** for now, to use mail template. By default you have to create a folder called ``templates`` in your root actionhero project. In there, place folders of templates with template files named ``html.{{template engine}}``, ``text.{{template engine}}``, and/or, ``style.{{CSS pre-processor}}``. See [node-email-templates][20] for more detailed explanation.
+
+```
+your-actionhero-project
+├── actions
+├── config
+├── ...
+├── templates
+    ├── welcome
+    |   ├── html.ejs
+    |   ├── text.ejs
+    |   ├── style.less
+    |
+    ├── resetPassword
+    |   ├── html.ejs
+    |   ├── text.ejs
+    |   ├── style.less
+    |
+    ├── etc.etc.
+```
+The location of ``templates`` directory can be configured in ``mailer.js`` configuration file above, **relative to the config file's location**.
 
 <a name="usage"></a>
 ### Usage
@@ -135,31 +164,47 @@ api.tasks.enqueue('sendMail', options, 'default', function(error, done) {
 })
 ```
 
+<a name="api"></a>
+API Methods
+-----------
+### api.Mailer.send(options, callback)
+Send mail with nodemailer plugin. Returns a promise object which will be resolved with mail sending response object, or rejected if there is any error.
+
+ - ``options`` (required) hash of option to send the email, consists of this following fields:
+     - ``mail`` The email message field, as described [here][21]. You can provide default values in ``mailer.js`` config under ``mailOptions`` field.
+     - ``locals`` The data to provide to the template file.
+     - ``template`` The template name to use.
+ - ``callback`` (optional) Function to call after the mail sending process is finished. Will be called with 2 arguments, ``error`` and ``response``.
+
+### api.tasks.enqueue('sendMail', options, queueName, callback)
+Send mail through a task named ``sendMail``. The ``options`` argument is the same as above.
+
 <a name="todo"></a>
 TODO
 ----
 
- - Provide Mail Template documentation and notes.
- - Provide API Reference in README.
  - Provide test.
  - Provide implementation sample.
- - Provide postinstall scripts.
 
 
   [1]: #what
   [2]: #features
-  [3]: #installing
-  [4]: configuration
-  [5]: #usage
-  [6]: #todo
-  [7]: http://actionherojs.com
-  [8]: http://www.nodemailer.com
-  [9]: https://github.com/niftylettuce/node-email-templates
-  [10]: http://www.nodemailer.com
-  [11]: https://github.com/visionmedia/ejs
-  [12]: https://github.com/visionmedia/jade
-  [13]: https://github.com/paularmstrong/swig
-  [14]: https://github.com/wycats/handlebars.js
-  [15]: http://promises-aplus.github.io/promises-spec/
-  [16]: http://www.nodemailer.com/docs/transports
-
+  [3]: #how
+  [4]: #installing
+  [5]: configuration
+  [6]: #templates
+  [7]: #usage
+  [8]: #api
+  [9]: #todo
+  [10]: http://actionherojs.com
+  [11]: http://www.nodemailer.com
+  [12]: https://github.com/niftylettuce/node-email-templates
+  [13]: http://www.nodemailer.com
+  [14]: https://github.com/visionmedia/ejs
+  [15]: https://github.com/visionmedia/jade
+  [16]: https://github.com/paularmstrong/swig
+  [17]: https://github.com/wycats/handlebars.js
+  [18]: http://promises-aplus.github.io/promises-spec/
+  [19]: http://www.nodemailer.com/docs/transports
+  [20]: https://github.com/niftylettuce/node-email-templates#quick-start
+  [21]: https://github.com/andris9/Nodemailer#e-mail-message-fields
