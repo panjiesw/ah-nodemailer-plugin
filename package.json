@@ -1,7 +1,7 @@
 {
   "author": "Panjie SW <panjie@panjiesw.com>",
   "name": "ah-nodemailer-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "nodemailer email plugin for actionhero API Server",
   "homepage": "https://github.com/panjiesw/ah-nodemailer-plugin",
   "scripts": {
