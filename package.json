@@ -1,12 +1,13 @@
 {
   "author": "Panjie SW <panjie@panjiesw.com>",
   "name": "ah-nodemailer-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "nodemailer email plugin for actionhero API Server",
   "homepage": "https://github.com/panjiesw/ah-nodemailer-plugin",
   "scripts": {
     "postinstall": "scripts/postinstall.js",
-    "prepublish": "grunt dev"
+    "prepublish": "grunt dev",
+    "postpublish": "grunt clean"
   },
   "repository": {
     "type": "git",

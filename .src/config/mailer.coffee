@@ -47,4 +47,4 @@ exports["default"] = mailer: (api) ->
   Email templates directory.
   Defaults to root `templates` directory.
   ###
-  templates: "#{__dirname}/../templates"
+  templates: "#{__dirname}/../../templates"
