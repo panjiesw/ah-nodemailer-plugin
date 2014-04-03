@@ -58,10 +58,8 @@ Mailer = (api, next) ->
       config = api.config.mailer
 
       unless options.mail and options.template and options.locals
-        error = new Error(
+        throw new Error(
           "Invalid options. Must contain template, mail, and locals property")
-        deferred.reject error
-        return
 
       unless options.mail.from
         options.mail.from = config.mailOptions.from
